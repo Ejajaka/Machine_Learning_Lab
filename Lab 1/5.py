@@ -1,6 +1,6 @@
 import random
 from statistics import mean, median, multimode
-def calculate_statistics(n):
+def statistic(n):
     avg = mean(n)
     med = median(n)
     mode = multimode(n)
@@ -10,4 +10,4 @@ def calculate_statistics(n):
 
 n = [random.randint(100, 150) for i in range(100)]
 print("Random Numbers:", n)
-calculate_statistics(n)
+statistic(n)
