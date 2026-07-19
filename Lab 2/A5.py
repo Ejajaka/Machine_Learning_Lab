@@ -1,7 +1,6 @@
 import numpy as nump
 import pandas as exe
 
-file = "Lab_Session_Data.xlsx"
 col = ['on thyroxine', 'query on thyroxine', 'on antithyroid medication', 'sick',
     'pregnant', 'thyroid surgery', 'I131 treatment', 'query hypothyroid', 'query hyperthyroid',
     'lithium', 'goitre', 'tumor', 'hypopituitary', 'psych', 'TSH measured', 'T3 measured',
@@ -20,5 +19,5 @@ def jc_smc(thy):
     print("JC:", jc, "SMC:", smc)
     return jc, smc
 
-thy = exe.read_excel(file, sheet_name='thyroid0387_UCI')
+thy = exe.read_excel("Lab_Session_Data.xlsx", sheet_name='thyroid0387_UCI')
 jc, smc = jc_smc(thy)

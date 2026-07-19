@@ -1,8 +1,5 @@
 import pandas as exe
 import numpy as nump
-def load(file):
-    data = exe.read_excel(file, sheet_name="Purchase data")
-    return data
 
 def matrix(data):
     X = data[["Candies (#)", "Mangoes (Kg)", "Milk Packets (#)"]].values
@@ -14,8 +11,7 @@ def cost(X, Y):
     cost = X_pinv @ Y
     return cost
 
-file = "Lab_Session_Data.xlsx"
-data = load(file)
+data = exe.read_excel("Lab_Session_Data.xlsx", sheet_name="Purchase data")
 X, Y = matrix(data)
 print("matrix:")
 print(X)

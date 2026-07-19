@@ -3,7 +3,6 @@ import pandas as exe
 import matplotlib.pyplot as plot
 import seaborn 
 
-file = "Lab_Session_Data.xlsx"
 col = ['on thyroxine', 'query on thyroxine', 'on antithyroid medication', 'sick',
     'pregnant', 'thyroid surgery', 'I131 treatment', 'query hypothyroid', 'query hyperthyroid',
     'lithium', 'goitre', 'tumor', 'hypopituitary', 'psych', 'TSH measured', 'T3 measured',
@@ -20,7 +19,7 @@ def jc_smc(v1, v2):
 
 def cosine(v1, v2):
     return nump.dot(v1, v2) / (nump.linalg.norm(v1) * nump.linalg.norm(v2))
-thy = exe.read_excel(file, sheet_name='thyroid0387_UCI')  
+thy = exe.read_excel("Lab_Session_Data.xlsx", sheet_name='thyroid0387_UCI')  
 n = 20
 binary_vectors = thy[col].replace({'f': 0, 't': 1}).iloc[:n].values
 full_vectors = thy.drop(columns=['Record ID', 'Condition']).replace({'f': 0, 't': 1, '?': nump.nan})

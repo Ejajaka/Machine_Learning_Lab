@@ -1,11 +1,6 @@
 import numpy as nump
 import pandas as exe
 
-file = "Lab_Session_Data.xlsx"
-def load_thyroid(file):
-    thy = exe.read_excel(file, sheet_name='thyroid0387_UCI')
-    return thy
-
 def attribute_types(thy):
     for x in thy.columns:
         print(x, "-> dtype:", thy[x].dtype, ", unique values:", thy[x].nunique())
@@ -35,7 +30,7 @@ def mean_variance(thy, numeric_cols):
         print(x, "-> mean:", col.mean(), "variance:", col.var())
 
 numeric_cols = ['age', 'TSH', 'T3', 'TT4', 'T4U', 'FTI', 'TBG']
-thy = load_thyroid(file)
+thy = thy = exe.read_excel("Lab_Session_Data.xlsx", sheet_name='thyroid0387_UCI')
 attribute_types(thy)
 numeric_ranges(thy, numeric_cols)
 missing_values(thy)

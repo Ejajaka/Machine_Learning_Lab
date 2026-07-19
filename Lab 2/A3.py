@@ -3,7 +3,6 @@ import pandas as exe
 import matplotlib.pyplot as plot
 import time
 
-file = "Lab_Session_Data.xlsx"
 def mean(arr):
     total = 0
     for x in arr:
@@ -17,8 +16,8 @@ def var(arr):
         total += (x - m) ** 2
     return total / len(arr)
 
-def mean_variance(file):
-    irctc = exe.read_excel(file, sheet_name='IRCTC Stock Price')
+def mean_variance():
+    irctc = exe.read_excel("Lab_Session_Data.xlsx", sheet_name='IRCTC Stock Price')
     price = irctc["Price"].values
     print("numpy mean:", nump.mean(price), "numpy var:", nump.var(price))
     print("own mean:", mean(price), "own var:", var(price))
@@ -88,7 +87,7 @@ def scatter_plot(irctc):
     plot.title("Chg% vs Day")
     plot.show()
 
-irctc = mean_variance(file)
+irctc = mean_variance()
 compare(irctc,10)
 wednesday_mean(irctc)
 april_mean(irctc)
