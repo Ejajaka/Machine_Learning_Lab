@@ -1,0 +1,144 @@
+================================================================================
+AI USAGE LOG — Lab 3 / Lab 4 Re-implementation, Unit Testing, K-Means Comparison
+Tool: Claude (Anthropic)
+================================================================================
+
+[001]
+TASK      : Lab 4 re-implementation — label encoding function
+PROMPT    : "def label(s): generate code for this pls"
+OUTPUT    : label(s) — label-encodes a pandas Series using sorted unique
+            categories, returns (encoded_series, mapping_dict)
+FILE      : lab4_functions.py
+--------------------------------------------------------------------------------
+
+[002]
+TASK      : Lab 4 re-implementation — one-hot encoding function
+PROMPT    : "def onehot(d, col): for this also pls"
+OUTPUT    : onehot(d, col) — adds one binary column per unique category
+            value in d[col] to a copy of the DataFrame
+FILE      : lab4_functions.py
+--------------------------------------------------------------------------------
+
+[003]
+TASK      : Lab 4 re-implementation — Minkowski distance
+PROMPT    : "def minkowski(x1, x2, p): for this also pls"
+OUTPUT    : minkowski(x1, x2, p) — vectorized Minkowski distance via numpy
+FILE      : lab4_functions.py
+--------------------------------------------------------------------------------
+
+[004]
+TASK      : Lab 4 re-implementation — dot product
+PROMPT    : "def dot(a, b): for this also"
+OUTPUT    : dot(a, b) — vectorized dot product via numpy
+FILE      : lab4_functions.py
+--------------------------------------------------------------------------------
+
+[005]
+TASK      : Lab 4 re-implementation — vector norm
+PROMPT    : "def norm(a):"
+OUTPUT    : norm(a) — Euclidean (L2) norm via numpy
+FILE      : lab4_functions.py
+--------------------------------------------------------------------------------
+
+[006]
+TASK      : Lab 4 re-implementation — mean
+PROMPT    : "def mean(x):"
+OUTPUT    : mean(x) — arithmetic mean, flat/1D version
+FILE      : lab4_stats.py
+--------------------------------------------------------------------------------
+
+[007]
+TASK      : Lab 4 re-implementation — variance and std
+PROMPT    : "def variance(x): / def std(x):"
+OUTPUT    : variance(x) and std(x) — population variance/std, variance
+            reuses mean(), std reuses variance()
+FILE      : lab4_stats.py
+--------------------------------------------------------------------------------
+
+[008]
+TASK      : Lab 4 re-implementation — 2D mean, distance, k-means
+PROMPT    : "def mean(x): / def distance(a, b): / def kmeans(x, k):"
+OUTPUT    : mean(x) [axis=0 variant for 2D input], distance(a, b)
+            [Euclidean distance], kmeans(x, k, max_iters=100) [Lloyd's
+            algorithm: random init -> assign -> recompute centroids ->
+            repeat until convergence]
+FILE      : lab4_kmeans.py
+--------------------------------------------------------------------------------
+
+[009]
+TASK      : A2 — unit test generation, setup
+PROMPT    : "Generate unit test cases using AI tools for testing your
+            modular functions. The unit test cases should be used for both
+            today's and last week's lab exercises." / "so if i sent you
+            both the codes will u be able to generate the rest?"
+OUTPUT    : Clarifying questions asked (framework choice, single vs
+            multiple test files, fixture data source)
+--------------------------------------------------------------------------------
+
+[010]
+TASK      : A2 — unit test generation, source upload
+PROMPT    : Uploaded Lab_3.zip and Lab_4.zip; "ignore the files with
+            filenames containing _projectdataset and continue pls";
+            "one test file covering all please"
+OUTPUT    : Extracted and reviewed all non-_projectdataset scripts from
+            both zips. Consolidated functions into four importable
+            modules: lab3_functions.py, lab4_functions.py, lab4_stats.py,
+            lab4_kmeans.py. Generated test_labs.py — 39 unittest cases
+            covering label, onehot, minkowski, dot, norm, mean, variance,
+            std, distance, kmeans, cross-checked against numpy/scipy
+            reference implementations. All 39 passed on first run.
+FINDING   : Lab 3's label() has a duplicate-value encoding bug not present
+            in Lab 4's AI-assisted version — documented as an explicit
+            test case (test_lab3_label_known_duplicate_behavior) rather
+            than treated as a failing test.
+FILES     : lab3_functions.py, lab4_functions.py, lab4_stats.py,
+            lab4_kmeans.py, test_labs.py
+--------------------------------------------------------------------------------
+
+[011]
+TASK      : A3 — k-means performance comparison, benchmark script
+PROMPT    : "Conduct a performance comparison of the 2 versions of k-means
+            algorithm, one written by you and the other developed using AI
+            tools." / "for the A3 qn i have put the 2 files into a folder
+            now i want you to give me a code that check the time each code
+            takes to run so that i can comapre and decide on whihc is
+            better"
+OUTPUT    : benchmark_kmeans.py — times A11.py (own) vs A1_11.py (AI)
+            kmeans() over dataset sizes [100, 500, 1000, 2000, 5000],
+            5 repeats each, reports mean/std runtime, plots runtime vs n.
+            Flagged that importing A11.py/A1_11.py directly would re-run
+            their top-level script code and recommended
+            if __name__ == "__main__": guards.
+FILE      : benchmark_kmeans.py
+--------------------------------------------------------------------------------
+
+[012]
+TASK      : A3 — bug triage after benchmark run failed
+PROMPT    : Pasted terminal output showing
+            "ValueError: object too deep for desired array" when running
+            the benchmark; then pasted full contents of both A11.py and
+            A1_11.py on request
+OUTPUT    : Root cause identified — A1_11.py's kmeans() returns
+            (labels, centroids), but the calling code unpacked it as
+            centroids, labels = kmeans(x, 3) (reversed order), so
+            labels.astype(int) was actually operating on the 2D centroid
+            array, which np.bincount() rejects (requires 1D input).
+            A11.py's own return order matched its unpacking correctly.
+FIX       : Corrected the unpacking order in A1_11.py; aligned
+            preprocessing between the two files (A1_11.py was missing the
+            .dropna() step A11.py had); wrapped both files' script
+            sections in if __name__ == "__main__": guards for safe
+            importing during benchmarking.
+FILES     : A11.py (corrected), A1_11.py (corrected)
+--------------------------------------------------------------------------------
+
+[013]
+TASK      : Documentation — prompt log request
+PROMPT    : "can u create a prompt log for this chat" -> "i wanted it to
+            be like a log file"
+OUTPUT    : This log file.
+--------------------------------------------------------------------------------
+
+================================================================================
+END OF LOG
+================================================================================
