@@ -9,7 +9,7 @@ def knn(data,pt,k):
     for i in range(len(data)):
         dist = eucl(pt, data[i])
         distance.append((dist, i))
-# Sorting
+# sorting
     distance.sort(key=lambda x: x[0])
     neighbour = [distance[i][1] for i in range(k)]
     return neighbour
