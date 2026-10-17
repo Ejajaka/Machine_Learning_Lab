@@ -1,18 +1,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+
 # summation function
-def summation(x, w, bias):
+def summation(ip, w, bias):
     result = bias
-    for i in range(len(x)):
-        result = result + x[i] * w[i]
+    for i in range(len(ip)):
+        result = result + ip[i] * w[i]
     return result
+
 # activation function
 def step(x):
     if x >= 0:
         return 1
     else:
         return 0
-# load data
+
 data = pd.read_csv("ACTG175.csv")
 # set input and target data
 X = data[["age", "wtkg"]]
@@ -33,6 +35,7 @@ for epoch in range(1000):
         x1 = X.iloc[i, 0]
         x2 = X.iloc[i, 1]
         target = Y.iloc[i]
+
         # set target values for two outputs
         if target == 0:
             t1 = 1
@@ -56,12 +59,13 @@ for epoch in range(1000):
         w02 = w02 + alpha * error2
         w12 = w12 + alpha * error2 * x1
         w22 = w22 + alpha * error2 * x2
+    # checking performance
     sse = 0
-# checking performance
     for i in range(len(X)):
         x1 = X.iloc[i, 0]
         x2 = X.iloc[i, 1]
         target = Y.iloc[i]
+
         # set target values for two outputs
         if target == 0:
             t1 = 1
@@ -80,10 +84,12 @@ for epoch in range(1000):
         error2 = t2 - prediction2
         sse = sse + error1 ** 2 + error2 ** 2
     errors.append(sse)
-    print("Epoch:", epoch + 1, "Error:", sse)
+    if (epoch + 1) % 100 == 0 or sse <= 0.002:
+        print("Epoch:", epoch + 1, "Error:", sse)
     # check convergence
     if sse <= 0.002:
         break
+
 print("\nFinal Weights:")
 print("Output 1:")
 print("W01 =", w01)
@@ -99,4 +105,5 @@ plt.plot(range(1, len(errors) + 1), errors)
 plt.xlabel("Epoch")
 plt.ylabel("Sum-Square Error")
 plt.title("Epoch vs Error")
+plt.grid(True)
 plt.show()
